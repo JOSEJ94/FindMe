@@ -91,6 +91,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Mensaje("No tengo permiso :c");
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

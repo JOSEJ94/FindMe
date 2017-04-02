@@ -1,9 +1,11 @@
 package com.moviles.rojas.findme;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -36,6 +38,8 @@ public class FindMe01 extends AppCompatActivity {
                 startActivity(intento);
             }
         });
+        String[] permisos = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION};
+        ActivityCompat.requestPermissions(this,permisos, PackageManager.PERMISSION_GRANTED);
     }
 
     @Override
