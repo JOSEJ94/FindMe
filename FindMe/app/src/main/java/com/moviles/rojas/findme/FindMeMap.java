@@ -1,8 +1,5 @@
 package com.moviles.rojas.findme;
 
-
-import android.*;
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,12 +14,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.LocationListener;
+
 
 public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -71,6 +68,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         LatLng coordenadas = new LatLng(lat, lon);
         CameraUpdate camara = CameraUpdateFactory.newLatLngZoom(coordenadas, 16); //16 es el nivel de zoom
         if (posicion != null) posicion.remove(); //Quita el marcador anterior
+        Mensaje("Se agrego marcador");
         posicion = mMap.addMarker(new MarkerOptions().position(coordenadas)
                                                      .title("Posicion marcada"));
         mMap.animateCamera(camara);             //Anima la camara con la actualizacion de camara definida antes.
@@ -92,9 +90,12 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Mensaje("Linea 1");
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+<<<<<<< HEAD
         Mensaje("Linea 2");
         actualizarUbicacion(locacion);
         Mensaje("Linea 3");
+=======
+>>>>>>> refs/remotes/origin/TrabajoJose
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
         Mensaje("Linea 4");
     }
