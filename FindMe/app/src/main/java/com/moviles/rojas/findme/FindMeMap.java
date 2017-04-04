@@ -1,6 +1,5 @@
 package com.moviles.rojas.findme;
 
-
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,12 +14,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.LocationListener;
+
 
 public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -69,6 +68,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         LatLng coordenadas = new LatLng(lat, lon);
         CameraUpdate camara = CameraUpdateFactory.newLatLngZoom(coordenadas, 16); //16 es el nivel de zoom
         if (posicion != null) posicion.remove(); //Quita el marcador anterior
+        Mensaje("Se agrego marcador");
         posicion = mMap.addMarker(new MarkerOptions().position(coordenadas)
                                                      .title("Posicion marcada"));
         mMap.animateCamera(camara);             //Anima la camara con la actualizacion de camara definida antes.
@@ -84,18 +84,11 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
 
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            Mensaje("No hay permiso");
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        actualizarUbicacion(locacion);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
     }
 
