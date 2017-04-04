@@ -8,7 +8,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -40,7 +40,12 @@
 
         <activity
             android:name=".FindMeMap"
-            android:label="@string/title_activity_find_me_map"></activity>
+            android:label="@string/title_activity_find_me_map" />
+
+        <service
+            android:name=".GPSTracker"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

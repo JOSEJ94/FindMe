@@ -25,32 +25,6 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;     //El mapa
     private Marker posicion;    //Marcador de Google Maps de posicion
-    double latitud = 0.0;       //Coordenada de latitud
-    double longitud = 0.0;      //Coordenada de longitud
-
-    LocationListener listenerGPS = new android.location.LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {  //Cada vez que se cambia de posición.
-            Mensaje("Actualizando posición");
-            actualizarUbicacion(location);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +36,9 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
     }
 
-    public void Mensaje(String msg){Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+    public void Mensaje(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+
 
     private void agregarMarcador(double lat, double lon) {  //Agregar un marcador en un punto y generar una transicion de camara a esa posición
         LatLng coordenadas = new LatLng(lat, lon);
@@ -74,23 +50,6 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         mMap.animateCamera(camara);             //Anima la camara con la actualizacion de camara definida antes.
     }
 
-    private void actualizarUbicacion(Location locacion) { //actualiza las coordenadas y llama a agregar el marcador
-        if (locacion != null) {
-            latitud = locacion.getLatitude();
-            longitud = locacion.getLongitude();
-            agregarMarcador(latitud, longitud);
-        }
-    }
-
-    private void miUbicacion() { //detecta la ubicación actual del dispositivo.
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Mensaje("No hay permiso");
-            return;
-        }
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
-    }
 
     /**
      * Manipulates the map once available.
@@ -104,6 +63,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        miUbicacion();
+
+        //miUbicacion();
     }
 }
