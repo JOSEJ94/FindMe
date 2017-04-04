@@ -59,7 +59,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_me_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the SupportMapFragdment an get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -90,9 +90,13 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Mensaje("Linea 1");
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Mensaje("Linea 2");
         actualizarUbicacion(locacion);
+        Mensaje("Linea 3");
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
+        Mensaje("Linea 4");
     }
 
     /**
@@ -108,5 +112,6 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         miUbicacion();
+
     }
 }
