@@ -1,5 +1,6 @@
 package com.moviles.rojas.findme;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,20 +11,26 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
+import static android.R.attr.name;
+import static android.R.attr.y;
 import static android.content.ContentValues.TAG;
 
 public class GPSTracker extends Service {
-    double latitud = 0.0;       //Coordenada de latitud
-    double longitud = 0.0;      //Coordenada de longitud
+    double latitud = -33.8688197;              //Coordenada de latitud
+    double longitud = 151.20929550000005;      //Coordenada de longitud
 
     public GPSTracker() {
+        super();
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -74,7 +81,19 @@ public class GPSTracker extends Service {
         if (locacion != null) {
             latitud = locacion.getLatitude();
             longitud = locacion.getLongitude();
+            broadcast();
         }
+    }
+
+    private void broadcast()
+    {
+        Intent localIntent = new Intent(Constants.ACTION_UPDATE)
+                .putExtra(Constants.UPDATE_LATITUDE,latitud)
+                .putExtra(Constants.UPDATE_LONGITUDE,longitud);
+        LocalBroadcastManager
+                .getInstance(GPSTracker.this)
+                .sendBroadcast(localIntent);
+
     }
 
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.

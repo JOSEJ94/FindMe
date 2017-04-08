@@ -1,12 +1,16 @@
 package com.moviles.rojas.findme;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -34,6 +38,19 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        IntentFilter filter = new IntentFilter(
+                Constants.ACTION_RUN_ISERVICE);
+        filter.addAction(Constants.ACTION_RUN_SERVICE);
+        filter.addAction(Constants.ACTION_STOP_SERVICE);
+        filter.addAction(Constants.ACTION_UPDATE);
+
+        ResponseReceiver receiver =
+                new ResponseReceiver();
+        // Registrar el receiver y su filtro
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                receiver,
+                filter);
     }
 
     public void Mensaje(String msg){
@@ -44,7 +61,6 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         LatLng coordenadas = new LatLng(lat, lon);
         CameraUpdate camara = CameraUpdateFactory.newLatLngZoom(coordenadas, 16); //16 es el nivel de zoom
         if (posicion != null) posicion.remove(); //Quita el marcador anterior
-        Mensaje("Se agrego marcador");
         posicion = mMap.addMarker(new MarkerOptions().position(coordenadas)
                                                      .title("Posicion marcada"));
         mMap.animateCamera(camara);             //Anima la camara con la actualizacion de camara definida antes.
@@ -63,7 +79,32 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        //miUbicacion();
+        // Filtro de acciones que serán alertadas
     }
+        //miUbicacion();
+
+    private class ResponseReceiver extends BroadcastReceiver {
+
+        // Sin instancias
+        private ResponseReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Constants.ACTION_RUN_SERVICE:
+                    break;
+                case Constants.ACTION_UPDATE:
+                    Mensaje("Actualizando Posición");
+                    System.out.println("Coordenadas: " + intent.getDoubleExtra(Constants.UPDATE_LATITUDE, 0) + " : " + intent.getDoubleExtra(Constants.UPDATE_LONGITUDE, 0));
+                    agregarMarcador(intent.getDoubleExtra(Constants.UPDATE_LATITUDE, 0),intent.getDoubleExtra(Constants.UPDATE_LONGITUDE, 0));
+                    break;
+                case Constants.ACTION_STOP_SERVICE:
+                    break;
+                case Constants.ACTION_RUN_ISERVICE:
+                    break;
+            }
+        }
+    }
+
 }
