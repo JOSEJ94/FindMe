@@ -1,18 +1,21 @@
 package com.moviles.rojas.findme;
 
-import android.*;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
+import android.content.BroadcastReceiver;
 
 public class FindMe01 extends AppCompatActivity {
 
@@ -23,25 +26,44 @@ public class FindMe01 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        String[] permisos = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION};
+        ActivityCompat.requestPermissions(this, permisos, PackageManager.PERMISSION_GRANTED);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
         Button btnMap = (Button) findViewById(R.id.btnMapa);
-        btnMap.setOnClickListener(new View.OnClickListener(){
+        btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent intento = new Intent(getApplicationContext(), FindMeMap.class);
                 startActivity(intento);
+
             }
         });
-        String[] permisos = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION};
-        ActivityCompat.requestPermissions(this,permisos, PackageManager.PERMISSION_GRANTED);
+        Button btnStartService = (Button) findViewById(R.id.btnIniciar);
+        btnStartService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                startService(new Intent(getApplicationContext(), GPSTracker.class));
+                Mensaje("Activado");
+            }
+        });
+        Button btnStopService = (Button) findViewById(R.id.btnDetener);
+        btnStopService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                stopService(new Intent(getApplicationContext(), GPSTracker.class));
+                Mensaje("Desactivado");
+            }
+        });
     }
+
+    public void Mensaje(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
