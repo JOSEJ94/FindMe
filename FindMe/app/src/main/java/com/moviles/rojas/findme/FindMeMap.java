@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.LocationListener;
 
+import static android.os.Build.VERSION_CODES.M;
+
 
 public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -79,25 +81,27 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
             latitud = locacion.getLatitude();
             longitud = locacion.getLongitude();
             agregarMarcador(latitud, longitud);
-        }
+        }else Mensaje("No tengo ubicacion");
+
     }
 
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
+        boolean flag = false; //Ayuda a llevar un control del medio por el cual se reciben las coordenadas...
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Mensaje("No hay permiso");
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Mensaje("Linea 1");
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-<<<<<<< HEAD
-        Mensaje("Linea 2");
+        if (locacion == null) {
+            locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            flag = true;
+        }
         actualizarUbicacion(locacion);
-        Mensaje("Linea 3");
-=======
->>>>>>> refs/remotes/origin/TrabajoJose
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
-        Mensaje("Linea 4");
+        if(flag)
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
+        else
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
     }
 
     /**
