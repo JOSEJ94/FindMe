@@ -17,6 +17,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.net.*;
+import java.io.*;
+
 import com.google.android.gms.maps.model.Marker;
 
 import static android.R.attr.name;
@@ -26,11 +29,33 @@ import static android.content.ContentValues.TAG;
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
     double longitud = 151.20929550000005;      //Coordenada de longitud
+    final static String host = "192.168.1.14";
+    //final static String host = "127.0.0.1";
+    final static int puerto = 5055;
+    static Socket sc;
+    static DataOutputStream mensaje;
+    static DataInputStream entrada;
+
 
     public GPSTracker() {
         super();
     }
 
+    private static void initFindMeClient(){
+     try{
+         InetAddress serverAddr = InetAddress.getByName(host);
+         sc = new Socket(serverAddr, puerto); // Conecta a el server
+         //Crear el stream de salida
+         mensaje = new DataOutputStream(sc.getOutputStream());
+         //Enviar el mensaje:
+         mensaje.writeUTF("Hola que tal!!");
+         //cerrar conexion...
+         sc.close();
+     }catch(Exception e){
+         //NO hacer nada por ahoraXD
+     }
+
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -48,6 +73,7 @@ public class GPSTracker extends Service {
     @Override
     public void onDestroy() {
         Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
+        liberarGPS();
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -96,12 +122,23 @@ public class GPSTracker extends Service {
 
     }
 
+    private void liberarGPS() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.removeUpdates(listenerGPS);
+    }
+
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
+        boolean flag =  false;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
+        if (locacion == null) {
+            locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            flag = true;
+        }
+        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
+        initFindMeClient();
     }
 }
