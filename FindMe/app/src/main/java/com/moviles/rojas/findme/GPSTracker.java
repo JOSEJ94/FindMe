@@ -26,6 +26,7 @@ import static android.content.ContentValues.TAG;
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
     double longitud = 151.20929550000005;      //Coordenada de longitud
+    boolean flag = false;
 
     public GPSTracker() {
         super();
@@ -47,8 +48,10 @@ public class GPSTracker extends Service {
 
     @Override
     public void onDestroy() {
+        liberarGPS();
         Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
@@ -77,6 +80,11 @@ public class GPSTracker extends Service {
         }
     };
 
+    private void liberarGPS() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.removeUpdates(listenerGPS);
+    }
+
     private void actualizarUbicacion(Location locacion) { //actualiza las coordenadas y llama a agregar el marcador
         if (locacion != null) {
             latitud = locacion.getLatitude();
@@ -85,11 +93,10 @@ public class GPSTracker extends Service {
         }
     }
 
-    private void broadcast()
-    {
+    private void broadcast() {
         Intent localIntent = new Intent(Constants.ACTION_UPDATE)
-                .putExtra(Constants.UPDATE_LATITUDE,latitud)
-                .putExtra(Constants.UPDATE_LONGITUDE,longitud);
+                .putExtra(Constants.UPDATE_LATITUDE, latitud)
+                .putExtra(Constants.UPDATE_LONGITUDE, longitud);
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
@@ -102,6 +109,11 @@ public class GPSTracker extends Service {
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
+        if (locacion == null) {
+            locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            flag = true;
+        }
+        actualizarUbicacion(locacion);
+        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
     }
 }
