@@ -17,11 +17,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.net.*;
-import java.io.*;
-
 import com.google.android.gms.maps.model.Marker;
 
+import static android.R.attr.host;
 import static android.R.attr.name;
 import static android.R.attr.y;
 import static android.content.ContentValues.TAG;
@@ -29,32 +27,9 @@ import static android.content.ContentValues.TAG;
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
     double longitud = 151.20929550000005;      //Coordenada de longitud
-    final static String host = "192.168.1.14";
-    //final static String host = "127.0.0.1";
-    final static int puerto = 5055;
-    static Socket sc;
-    static DataOutputStream mensaje;
-    static DataInputStream entrada;
-
 
     public GPSTracker() {
         super();
-    }
-
-    private static void initFindMeClient(){
-     try{
-         InetAddress serverAddr = InetAddress.getByName(host);
-         sc = new Socket(serverAddr, puerto); // Conecta a el server
-         //Crear el stream de salida
-         mensaje = new DataOutputStream(sc.getOutputStream());
-         //Enviar el mensaje:
-         mensaje.writeUTF("Hola que tal!!");
-         //cerrar conexion...
-         sc.close();
-     }catch(Exception e){
-         //NO hacer nada por ahoraXD
-     }
-
     }
 
     @Override
@@ -119,7 +94,7 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-
+        new Thread(new ServerConnection(this.latitud, this.longitud, "yo")).start();
     }
 
     private void liberarGPS() {
@@ -139,6 +114,5 @@ public class GPSTracker extends Service {
             flag = true;
         }
         locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
-        initFindMeClient();
     }
 }
