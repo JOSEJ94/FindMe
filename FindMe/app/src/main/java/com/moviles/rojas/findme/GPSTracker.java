@@ -31,11 +31,11 @@ public class GPSTracker extends Service {
     Usuario usuario = null;
     boolean flag = false;
 
-    public GPSTracker(Usuario user)
+    public GPSTracker()
     {
         super();
-        usuario = user;
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -59,6 +59,9 @@ public class GPSTracker extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String username = intent.getStringExtra("username");
+        String password = intent.getStringExtra("password");
+        usuario = new Usuario(username,username,password);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -105,11 +108,7 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-<<<<<<< HEAD
-        new Thread(new ServerConnection(this.latitud, this.longitud, this.usuario)).start();
-=======
-        new Thread(new ServerConnection(this.latitud, this.longitud, FindMe01.usuario, "Coordenadas")).start();
->>>>>>> refs/remotes/origin/Login-
+        new Thread(new ServerConnection(this.latitud, this.longitud, this.usuario, "coordenada")).start();
     }
 
 

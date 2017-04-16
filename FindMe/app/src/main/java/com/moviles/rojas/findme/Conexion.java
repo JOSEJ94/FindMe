@@ -6,6 +6,7 @@ import android.content.Intent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.concurrent.Callable;
 
 import static android.R.attr.password;
 
@@ -13,7 +14,7 @@ import static android.R.attr.password;
  * Created by Hector on 10/04/2017.
  */
 
-public class ServerConnection implements Runnable {
+public class Conexion implements Callable<String> {
     //Atributos
     private final static String host = "192.168.1.2";
     //final static String host = "127.0.0.1";
@@ -27,17 +28,42 @@ public class ServerConnection implements Runnable {
     private String accion;
 
     //Constructores:
-    public ServerConnection(double latitud, double longitud, Usuario user, String accion){
+    public Conexion(double latitud, double longitud, Usuario user, String accion){
         this.latitud = latitud;
         this.longitud = longitud;
         this.user = user;
         this.accion = accion;
     }
 
-    //Metodos de trabajo:
-    @Override
-    public void run() {
+    public void guardaCoordenadas(){
         try{
+            mensaje.writeUTF(this.user.getUsername());
+            mensaje.writeUTF(this.user.getPassword());
+            mensaje.writeDouble(this.latitud);
+            mensaje.writeDouble(this.longitud);
+        }catch(Exception e){
+            //No hacer nada por ahora :v
+        }
+    }
+
+    public String autenticar(){
+        try{
+            mensaje.writeUTF(this.user.getUsername());
+            mensaje.writeUTF(this.user.getPassword());
+            int res = entrada.readInt();
+            if(res==200) {
+                return "Ok";
+            }
+        }catch(Exception e){
+            //No hacer nada por ahora :v
+        }
+        return "Incorrect";
+    }
+
+    @Override
+    public String call() throws Exception {
+        try{
+            String resultado = "Done";
             System.out.println("Conectando a "+host+":"+puerto);
             //InetAddress serverAddr = InetAddress.getByName(host);
             sc = new Socket(host, puerto); // Conecta a el server
@@ -52,40 +78,19 @@ public class ServerConnection implements Runnable {
                 case Constants.NET_ACC_COORDENADA:
                     guardaCoordenadas();
                     break;
+                case Constants.NET_ACC_AUTENTICAR:
+                    resultado= autenticar();
                 default:
                     break;
-
             }
             //cerrar conexion...
             mensaje.flush();
             mensaje.close();
             sc.close();
+            return resultado;
         }catch(Exception e){
             System.out.println("Error de conexion");
         }
+        return null;
     }
-
-    public static String getHost() {
-        return host;
-    }
-
-    public double getLongitud() {
-        return longitud;
-    }
-
-    public double getLatitud() {
-        return latitud;
-    }
-
-    public void guardaCoordenadas(){
-        try{
-            mensaje.writeUTF(this.user.getUsername());
-            mensaje.writeUTF(this.user.getPassword());
-            mensaje.writeDouble(this.latitud);
-            mensaje.writeDouble(this.longitud);
-        }catch(Exception e){
-            //No hacer nada por ahora :v
-        }
-    }
-
 }

@@ -22,6 +22,7 @@ public class Server {
     private ServerSocket sc;
     private Socket so;
     public static List<Coordenada> lista;
+    public static List<Usuario> listaUsuarios;
 
     /**
      * @param args the command line arguments
@@ -29,6 +30,10 @@ public class Server {
 
     public Server() {
         Server.lista = new ArrayList<Coordenada>();
+        Server.listaUsuarios = new ArrayList<Usuario>();
+        Server.listaUsuarios.add(new Usuario("Alejandro", "Alejandro","123"));
+        Server.listaUsuarios.add(new Usuario("Hector", "Hector","123"));
+        Server.listaUsuarios.add(new Usuario("Jose","Jose","123"));
     }
 
     public void initServer() {
@@ -37,7 +42,7 @@ public class Server {
             int i = 0;
             while (true) {
                 so = new Socket();
-                System.out.println("Esperando una conexion en "+ sc.getLocalSocketAddress().toString());
+                System.out.println("Esperando una conexion");
                 so = sc.accept();
                 new Thread(new ClientConnection(so)).start();
                 System.out.println("Numero de llamadas hasta ahora: " + ++i + ".");

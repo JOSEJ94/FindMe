@@ -39,7 +39,7 @@ public class ClientConnection implements Runnable {
             //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
             salida = new DataOutputStream(cliente.getOutputStream());
             System.out.println("Confrimando conexion al cliente....");
-            salida.writeUTF("Conexion exitosa.. n envia un menasaje :D");
+            //salida.writeUTF("Conexion exitosa.. n envia un menasaje :D");
 
             //Recepcion de mensaje:
             //mensajeRecibido = entrada.readLine();
@@ -63,6 +63,9 @@ public class ClientConnection implements Runnable {
         switch(opcion){
             case "coordenada":
                 guardaCoordenada();
+            break;
+            case "autenticar":
+                login();
             break;
             default:
                 System.out.println("Opcion indefinida.");
@@ -94,6 +97,23 @@ public class ClientConnection implements Runnable {
         }
         Server.lista.add(cord);
         return cord;
+    }//FinDelMetodo...
+    
+    public void login(){
+        try{
+        //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+       String username = entrada.readUTF();
+       String password = entrada.readUTF();
+        System.out.println("Comprobando usuario");
+        boolean found = false;
+        for(Usuario u : Server.listaUsuarios){
+                if(u.getUserName().equals(username) && u.getPassword().equals(password))
+                    found = true;
+            }
+        salida.writeInt(found?200:0);
+        }catch(Exception e){
+            System.out.println("Error "+ e.getMessage());
+        }
     }//FinDelMetodo...
     
 }//FinDeLaClase...

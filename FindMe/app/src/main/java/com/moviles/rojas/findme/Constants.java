@@ -15,4 +15,9 @@ public class Constants {
     public static final String UPDATE_LONGITUDE =             "com.moviles.rojas.findme.action.UPDATE_LONGITUDE";
 
     public static final String ACTION_RUN_ISERVICE =          "com.moviles.rojas.findme.action.RUN_ISERVICE";
+
+    //protocolos de comunicación
+    public static final String NET_ACC_AUTENTICAR = "autenticar";
+    public static final String NET_ACC_COORDENADA = "coordenada";
+
 }

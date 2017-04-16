@@ -72,7 +72,10 @@ public class FindMe01 extends AppCompatActivity {
         btnStartService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                startService(new Intent(getApplicationContext(), GPSTracker.class));
+                Intent tracker = new Intent(getApplicationContext(), GPSTracker.class);
+                tracker.putExtra("username", usuario.getUsername());
+                tracker.putExtra("password", usuario.getPassword());
+                startService(tracker);
                 Mensaje("Activado");
             }
         });
