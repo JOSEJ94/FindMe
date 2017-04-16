@@ -31,6 +31,9 @@ public class Server {
     public Server() {
         Server.lista = new ArrayList<Coordenada>();
         Server.listaUsuarios = new ArrayList<Usuario>();
+        Server.listaUsuarios.add(new Usuario("Alejandro", "Alejandro","123"));
+        Server.listaUsuarios.add(new Usuario("Hector", "Hector","123"));
+        Server.listaUsuarios.add(new Usuario("Jose","Jose","123"));
     }
 
     public void initServer() {

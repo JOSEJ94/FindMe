@@ -67,6 +67,9 @@ public class ClientConnection implements Runnable {
             case "autenticar":
                 salida.writeBoolean(autenticar());
             break;
+            case "cuenta":
+                System.out.println("Funcionalidad indefinida.");
+            break;
             default:
                 System.out.println("Opcion indefinida.");
             break;
