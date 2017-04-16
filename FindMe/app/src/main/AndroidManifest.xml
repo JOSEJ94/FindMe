@@ -50,7 +50,7 @@
 
         <activity
             android:name=".FindMeLogin"
-            android:label="@string/title_activity_find_me_login"
+            android:label="FindMe"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
