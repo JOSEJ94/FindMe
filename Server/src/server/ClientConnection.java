@@ -47,7 +47,7 @@ public class ClientConnection implements Runnable {
             System.out.println(mensajeRecibido);
             switch(mensajeRecibido){
                 case "FindMe":
-                    guardaCoordenada();
+                    findMeConnection();
             }
             entrada.close();
             salida.flush();
@@ -56,6 +56,22 @@ public class ClientConnection implements Runnable {
             System.out.println("Error: " + e.getMessage());
         }
     }//FinDelMetodo...
+    
+    public void findMeConnection(){
+        try{
+        String opcion = entrada.readUTF();
+        switch(opcion){
+            case "coordenada":
+                guardaCoordenada();
+            break;
+            default:
+                System.out.println("Opcion indefinida.");
+            break;
+        }
+        }catch(Exception e){
+            System.out.println("Error "+ e.getMessage());
+        }
+    }
     
     public Coordenada guardaCoordenada(){
         Coordenada cord = new Coordenada();
