@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 public class FindMe01 extends AppCompatActivity {
     //region Atributos
-    Usuario usuario;
+    public static Usuario usuario;
     //endregion
 
     @Override

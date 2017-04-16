@@ -18,15 +18,13 @@ public class ServerConnection implements Runnable {
     private static DataInputStream entrada;
     private double longitud;
     private double latitud;
-    private String userId;
-    private String userPass;
+    private Usuario user;
 
     //Constructores:
-    public ServerConnection(double latitud, double longitud, String id, String pass){
+    public ServerConnection(double latitud, double longitud, Usuario user){
         this.latitud = latitud;
         this.longitud = longitud;
-        this.userId = id;
-        this.userPass = pass;
+        this.user = user;
     }
 
     //Metodos de trabajo:
@@ -39,8 +37,8 @@ public class ServerConnection implements Runnable {
             mensaje = new DataOutputStream(sc.getOutputStream());
             //Enviar el mensaje:
             mensaje.writeUTF("FindMe");
-            mensaje.writeUTF(this.userId);
-            mensaje.writeUTF(this.userPass);
+            mensaje.writeUTF(this.user.getUsername());
+            mensaje.writeUTF(this.user.getPassword());
             mensaje.writeDouble(this.latitud);
             mensaje.writeDouble(this.longitud);
             //cerrar conexion...
