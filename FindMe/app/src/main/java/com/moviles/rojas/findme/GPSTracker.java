@@ -28,10 +28,13 @@ import static android.webkit.WebViewDatabase.getInstance;
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
     double longitud = 151.20929550000005;      //Coordenada de longitud
+    Usuario usuario = null;
     boolean flag = false;
 
-    public GPSTracker() {
+    public GPSTracker(Usuario user)
+    {
         super();
+        usuario = user;
     }
 
     @Override
@@ -102,7 +105,7 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-        new Thread(new ServerConnection(this.latitud, this.longitud, FindMe01.usuario)).start();
+        new Thread(new ServerConnection(this.latitud, this.longitud, this.usuario)).start();
     }
 
 

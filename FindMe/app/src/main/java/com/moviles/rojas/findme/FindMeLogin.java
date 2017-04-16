@@ -10,7 +10,6 @@ import android.widget.EditText;
 import static android.R.attr.password;
 
 public class FindMeLogin extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +21,7 @@ public class FindMeLogin extends AppCompatActivity {
                 EditText username = (EditText) findViewById(R.id.txtUsername);
                 EditText password = (EditText) findViewById(R.id.txtPassword);
                 if (validacion()) {
+
                     Intent nuevaActivity = new Intent(getApplicationContext(), FindMe01.class);
                     nuevaActivity.putExtra("username", username.getText().toString());
                     nuevaActivity.putExtra("name", username.getText().toString());

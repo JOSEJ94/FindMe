@@ -37,7 +37,7 @@ public class Server {
             int i = 0;
             while (true) {
                 so = new Socket();
-                System.out.println("Esperando una conexion");
+                System.out.println("Esperando una conexion en "+ sc.getLocalSocketAddress().toString());
                 so = sc.accept();
                 new Thread(new ClientConnection(so)).start();
                 System.out.println("Numero de llamadas hasta ahora: " + ++i + ".");
