@@ -32,8 +32,13 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+<<<<<<< HEAD
 
         IntentFilter filter = new IntentFilter(Constants.ACTION_RUN_ISERVICE);
+=======
+        IntentFilter filter = new IntentFilter(
+                Constants.ACTION_RUN_ISERVICE);
+>>>>>>> refs/remotes/origin/Login-
         filter.addAction(Constants.ACTION_RUN_SERVICE);
         filter.addAction(Constants.ACTION_STOP_SERVICE);
         filter.addAction(Constants.ACTION_UPDATE);
@@ -44,6 +49,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 receiver,
                 filter);
+
     }
 
     public void Mensaje(String msg) {

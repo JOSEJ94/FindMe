@@ -2,7 +2,11 @@
     <string name="app_name">FindMe</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_find_me_map">Map</string>
+<<<<<<< HEAD
     <string name="title_activity_login">Sign in</string>
+=======
+    <string name="title_activity_find_me_login">Login</string>
+>>>>>>> refs/remotes/origin/Login-
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

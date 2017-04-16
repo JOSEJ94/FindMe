@@ -16,9 +16,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FindMe01 extends AppCompatActivity {
+    //region Atributos
+    public static Usuario usuario;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,13 @@ public class FindMe01 extends AppCompatActivity {
         setContentView(R.layout.activity_find_me01);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Intent actual = getIntent();
+        String username = actual.getStringExtra("username");
+        String name = actual.getStringExtra("name");
+        String password = actual.getStringExtra("password");
+        usuario = new Usuario(username,name,password);
+        TextView saludo = (TextView) findViewById(R.id.txtViewSaludo);
+        saludo.setText("Hola "+usuario.getNameOfUser());
         String[] permisos = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET};
         ActivityCompat.requestPermissions(this, permisos, PackageManager.PERMISSION_GRANTED);
 

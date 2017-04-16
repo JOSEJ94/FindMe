@@ -19,18 +19,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
+import static android.R.attr.host;
 import static android.R.attr.name;
 import static android.R.attr.y;
 import static android.content.ContentValues.TAG;
+import static android.webkit.WebViewDatabase.getInstance;
 
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
     double longitud = 151.20929550000005;      //Coordenada de longitud
+    boolean flag = false;
 
     public GPSTracker() {
         super();
     }
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,7 +49,9 @@ public class GPSTracker extends Service {
 
     @Override
     public void onDestroy() {
+        liberarGPS();
         Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
+        liberarGPS();
     }
 
     @Override
@@ -78,6 +82,11 @@ public class GPSTracker extends Service {
         }
     };
 
+    private void liberarGPS() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.removeUpdates(listenerGPS);
+    }
+
     private void actualizarUbicacion(Location locacion) { //actualiza las coordenadas y llama a agregar el marcador
         if (locacion != null) {
             latitud = locacion.getLatitude();
@@ -93,11 +102,16 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-
+        new Thread(new ServerConnection(this.latitud, this.longitud, FindMe01.usuario)).start();
     }
 
+
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
+<<<<<<< HEAD
         boolean flag = false;
+=======
+        boolean flag =  false;
+>>>>>>> refs/remotes/origin/Login-
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -107,6 +121,15 @@ public class GPSTracker extends Service {
             locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             flag = true;
         }
+<<<<<<< HEAD
         locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
+=======
+
+        actualizarUbicacion(locacion);
+        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
+
+        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
+
+>>>>>>> refs/remotes/origin/Login-
     }
 }

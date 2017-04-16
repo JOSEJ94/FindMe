@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.moviles.rojas.findme.FindMeLogin"
+    tools:showIn="@layout/activity_find_me_login">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="173dp"
+        android:layout_height="24dp"
+        android:text="Nombre de Usuario"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="149dp"
+        android:layout_alignBottom="@+id/txtUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="103dp"
+        android:layout_height="wrap_content"
+        android:text="Contraseña"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="213dp"
+        android:layout_above="@+id/txtPassword"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear nueva cuenta"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="403dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignStart="@+id/textView1"
+        android:layout_marginBottom="59dp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entrar"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="294dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="149dp" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="237dp"
+        android:layout_marginBottom="18dp"
+        android:layout_above="@+id/btnLogin"
+        android:layout_alignLeft="@+id/txtUsername"
+        android:layout_alignStart="@+id/txtUsername" />
+
+    <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="161dp"
+        android:layout_marginBottom="42dp"
+        android:layout_above="@+id/txtPassword"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
