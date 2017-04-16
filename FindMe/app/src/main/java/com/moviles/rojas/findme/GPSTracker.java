@@ -49,6 +49,7 @@ public class GPSTracker extends Service {
     public void onDestroy() {
         Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
@@ -85,11 +86,10 @@ public class GPSTracker extends Service {
         }
     }
 
-    private void broadcast()
-    {
+    private void broadcast() {
         Intent localIntent = new Intent(Constants.ACTION_UPDATE)
-                .putExtra(Constants.UPDATE_LATITUDE,latitud)
-                .putExtra(Constants.UPDATE_LONGITUDE,longitud);
+                .putExtra(Constants.UPDATE_LATITUDE, latitud)
+                .putExtra(Constants.UPDATE_LONGITUDE, longitud);
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
@@ -97,11 +97,16 @@ public class GPSTracker extends Service {
     }
 
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
+        boolean flag = false;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location locacion = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0, listenerGPS);
+        if (locacion == null) {
+            locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            flag = true;
+        }
+        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
     }
 }

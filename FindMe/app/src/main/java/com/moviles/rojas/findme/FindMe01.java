@@ -38,7 +38,7 @@ public class FindMe01 extends AppCompatActivity {
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(FindMe01.this)
                                 .setSmallIcon(android.R.drawable.stat_sys_warning)
-                                .setLargeIcon((((BitmapDrawable)getResources()
+                                .setLargeIcon((((BitmapDrawable) getResources()
                                         .getDrawable(R.mipmap.ic_launcher)).getBitmap()))
                                 .setContentTitle("Alerta de Usuario")
                                 .setContentText("Un dispositivo solicita su ayuda")
@@ -76,8 +76,11 @@ public class FindMe01 extends AppCompatActivity {
         });
     }
 
-    public void Mensaje(String msg){
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+    public void Mensaje(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    ;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -33,8 +33,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        IntentFilter filter = new IntentFilter(
-                Constants.ACTION_RUN_ISERVICE);
+        IntentFilter filter = new IntentFilter(Constants.ACTION_RUN_ISERVICE);
         filter.addAction(Constants.ACTION_RUN_SERVICE);
         filter.addAction(Constants.ACTION_STOP_SERVICE);
         filter.addAction(Constants.ACTION_UPDATE);
@@ -47,19 +46,18 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
                 filter);
     }
 
-    public void Mensaje(String msg){
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
-
+    public void Mensaje(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 
     private void agregarMarcador(double lat, double lon) {  //Agregar un marcador en un punto y generar una transicion de camara a esa posición
         LatLng coordenadas = new LatLng(lat, lon);
         CameraUpdate camara = CameraUpdateFactory.newLatLngZoom(coordenadas, 16); //16 es el nivel de zoom
         if (posicion != null) posicion.remove(); //Quita el marcador anterior
         posicion = mMap.addMarker(new MarkerOptions().position(coordenadas)
-                                                     .title("Posicion marcada"));
+                .title("Posicion marcada"));
         mMap.animateCamera(camara);             //Anima la camara con la actualizacion de camara definida antes.
     }
-
 
     /**
      * Manipulates the map once available.
@@ -89,7 +87,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
                 case Constants.ACTION_UPDATE:
                     Mensaje("Actualizando Posición");
                     System.out.println("Coordenadas: " + intent.getDoubleExtra(Constants.UPDATE_LATITUDE, 0) + " : " + intent.getDoubleExtra(Constants.UPDATE_LONGITUDE, 0));
-                    agregarMarcador(intent.getDoubleExtra(Constants.UPDATE_LATITUDE, 0),intent.getDoubleExtra(Constants.UPDATE_LONGITUDE, 0));
+                    agregarMarcador(intent.getDoubleExtra(Constants.UPDATE_LATITUDE, 0), intent.getDoubleExtra(Constants.UPDATE_LONGITUDE, 0));
                     break;
                 case Constants.ACTION_STOP_SERVICE:
                     break;
