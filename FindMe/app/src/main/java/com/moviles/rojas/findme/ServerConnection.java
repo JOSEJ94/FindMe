@@ -19,12 +19,14 @@ public class ServerConnection implements Runnable {
     private double longitud;
     private double latitud;
     private Usuario user;
+    private String accion;
 
     //Constructores:
-    public ServerConnection(double latitud, double longitud, Usuario user){
+    public ServerConnection(double latitud, double longitud, Usuario user, String accion){
         this.latitud = latitud;
         this.longitud = longitud;
         this.user = user;
+        this.accion = accion;
     }
 
     //Metodos de trabajo:
@@ -37,16 +39,32 @@ public class ServerConnection implements Runnable {
             mensaje = new DataOutputStream(sc.getOutputStream());
             //Enviar el mensaje:
             mensaje.writeUTF("FindMe");
-            mensaje.writeUTF(this.user.getUsername());
-            mensaje.writeUTF(this.user.getPassword());
-            mensaje.writeDouble(this.latitud);
-            mensaje.writeDouble(this.longitud);
+            mensaje.writeUTF(accion);
+            switch(accion){
+                case "coordenada":
+                    guardaCoordenadas();
+                    break;
+                default:
+                    break;
+
+            }
             //cerrar conexion...
             mensaje.flush();
             mensaje.close();
             sc.close();
         }catch(Exception e){
             //NO hacer nada por ahoraXD
+        }
+    }
+
+    public void guardaCoordenadas(){
+        try{
+            mensaje.writeUTF(this.user.getUsername());
+            mensaje.writeUTF(this.user.getPassword());
+            mensaje.writeDouble(this.latitud);
+            mensaje.writeDouble(this.longitud);
+        }catch(Exception e){
+            //No hacer nada por ahora :v
         }
     }
 
