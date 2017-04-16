@@ -19,16 +19,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
+import static android.R.attr.host;
 import static android.R.attr.name;
 import static android.R.attr.y;
 import static android.content.ContentValues.TAG;
+import static android.webkit.WebViewDatabase.getInstance;
 
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
     double longitud = 151.20929550000005;      //Coordenada de longitud
+    Usuario usuario = null;
     boolean flag = false;
 
-    public GPSTracker() {
+    public GPSTracker()
+    {
         super();
     }
 
@@ -50,10 +54,14 @@ public class GPSTracker extends Service {
     public void onDestroy() {
         liberarGPS();
         Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_LONG).show();
+        liberarGPS();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String username = intent.getStringExtra("username");
+        String password = intent.getStringExtra("password");
+        usuario = new Usuario(username,username,password);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -100,10 +108,12 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-
+        new Thread(new ServerConnection(this.latitud, this.longitud, this.usuario, "coordenada")).start();
     }
 
+
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
+        boolean flag =  false;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -113,7 +123,11 @@ public class GPSTracker extends Service {
             locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             flag = true;
         }
+
         actualizarUbicacion(locacion);
         locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
+
+        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
+
     }
 }

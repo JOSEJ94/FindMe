@@ -32,7 +32,6 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         IntentFilter filter = new IntentFilter(
                 Constants.ACTION_RUN_ISERVICE);
         filter.addAction(Constants.ACTION_RUN_SERVICE);
@@ -45,6 +44,7 @@ public class FindMeMap extends FragmentActivity implements OnMapReadyCallback {
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 receiver,
                 filter);
+
     }
 
     public void Mensaje(String msg){
