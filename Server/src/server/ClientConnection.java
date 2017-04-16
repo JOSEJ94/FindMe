@@ -64,6 +64,9 @@ public class ClientConnection implements Runnable {
             case "coordenada":
                 guardaCoordenada();
             break;
+            case "autenticar":
+                salida.writeBoolean(autenticar());
+            break;
             default:
                 System.out.println("Opcion indefinida.");
             break;
@@ -71,6 +74,22 @@ public class ClientConnection implements Runnable {
         }catch(Exception e){
             System.out.println("Error "+ e.getMessage());
         }
+    }
+    
+    public boolean autenticar(){
+        try{
+            String username = entrada.readUTF();
+            String password = entrada.readUTF();
+            
+            for(Usuario u : Server.listaUsuarios){
+                if(u.getUserName().equals(username) && u.getPassword().equals(password))
+                    return true;
+            }
+            
+        }catch(Exception e){
+            System.out.println("Error "+e.getMessage());
+        }
+        return false;
     }
     
     public Coordenada guardaCoordenada(){

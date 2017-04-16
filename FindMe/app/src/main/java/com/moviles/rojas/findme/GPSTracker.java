@@ -102,7 +102,7 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-        new Thread(new ServerConnection(this.latitud, this.longitud, FindMe01.usuario, "Coordenadas")).start();
+        new Thread(new ServerConnection(this.latitud, this.longitud, FindMe01.usuario, "coordenada")).start();
     }
 
 

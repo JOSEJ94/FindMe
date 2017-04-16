@@ -44,6 +44,7 @@ public class ServerConnection implements Runnable {
                 case "coordenada":
                     guardaCoordenadas();
                     break;
+                
                 default:
                     break;
 
@@ -54,6 +55,14 @@ public class ServerConnection implements Runnable {
             sc.close();
         }catch(Exception e){
             //NO hacer nada por ahoraXD
+        }
+    }
+
+    public void crearUsuario(){
+        try{
+
+        }catch(Exception e) {
+            //No hacer nada por ahora...
         }
     }
 

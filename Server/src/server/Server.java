@@ -22,6 +22,7 @@ public class Server {
     private ServerSocket sc;
     private Socket so;
     public static List<Coordenada> lista;
+    public static List<Usuario> listaUsuarios;
 
     /**
      * @param args the command line arguments
@@ -29,6 +30,7 @@ public class Server {
 
     public Server() {
         Server.lista = new ArrayList<Coordenada>();
+        Server.listaUsuarios = new ArrayList<Usuario>();
     }
 
     public void initServer() {
