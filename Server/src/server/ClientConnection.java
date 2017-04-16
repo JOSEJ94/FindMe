@@ -61,9 +61,12 @@ public class ClientConnection implements Runnable {
         Coordenada cord = new Coordenada();
         try{
         //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-        cord.setUsuario( entrada.readUTF());
+        cord.getUsuario().setName( entrada.readUTF());
         System.out.println("El usuario es: ");
-        System.out.println(cord.getUsuario());
+        System.out.println(cord.getUsuario().getName());
+        cord.getUsuario().setPassword(entrada.readUTF());
+        System.out.println("La contraseña es: ");
+        System.out.println(cord.getUsuario().getPassword());
         cord.setLatitud(entrada.readDouble());
         System.out.println("La latitud es: ");
         System.out.println(cord.getLatitud());

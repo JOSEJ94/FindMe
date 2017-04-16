@@ -13,10 +13,10 @@ public class Coordenada {
     //Atributos:
     private double longitud;
     private double latitud;
-    private String usuario;
+    private Usuario usuario;
 
     //Constructores:
-    public Coordenada(double longitud, double latitud, String usuario) {
+    public Coordenada(double longitud, double latitud, Usuario usuario) {
         this.longitud = longitud;
         this.latitud = latitud;
         this.usuario = usuario;
@@ -25,7 +25,7 @@ public class Coordenada {
     public Coordenada(){
         this.longitud = 0;
         this.latitud = 0;
-        this.usuario = "";
+        this.usuario = new Usuario();
     }
     
     public double getLongitud() {
@@ -44,11 +44,11 @@ public class Coordenada {
         this.latitud = latitud;
     }
 
-    public String getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
     

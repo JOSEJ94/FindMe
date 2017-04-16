@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class ServerConnection implements Runnable {
     //Atributos
-    private final static String host = "192.168.1.14";
+    private final static String host = "192.168.1.15";
     //final static String host = "127.0.0.1";
     private final static int puerto = 5055;
     private static Socket sc;
@@ -19,12 +19,14 @@ public class ServerConnection implements Runnable {
     private double longitud;
     private double latitud;
     private String userId;
+    private String userPass;
 
     //Constructores:
-    public ServerConnection(double latitud, double longitud, String id){
+    public ServerConnection(double latitud, double longitud, String id, String pass){
         this.latitud = latitud;
         this.longitud = longitud;
         this.userId = id;
+        this.userPass = pass;
     }
 
     //Metodos de trabajo:
@@ -38,6 +40,7 @@ public class ServerConnection implements Runnable {
             //Enviar el mensaje:
             mensaje.writeUTF("FindMe");
             mensaje.writeUTF(this.userId);
+            mensaje.writeUTF(this.userPass);
             mensaje.writeDouble(this.latitud);
             mensaje.writeDouble(this.longitud);
             //cerrar conexion...

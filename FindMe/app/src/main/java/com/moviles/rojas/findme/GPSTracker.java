@@ -23,6 +23,7 @@ import static android.R.attr.host;
 import static android.R.attr.name;
 import static android.R.attr.y;
 import static android.content.ContentValues.TAG;
+import static android.webkit.WebViewDatabase.getInstance;
 
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
@@ -101,13 +102,9 @@ public class GPSTracker extends Service {
         LocalBroadcastManager
                 .getInstance(GPSTracker.this)
                 .sendBroadcast(localIntent);
-        new Thread(new ServerConnection(this.latitud, this.longitud, "yo")).start();
+        new Thread(new ServerConnection(this.latitud, this.longitud, "yo", "0032EDD0")).start();
     }
 
-    private void liberarGPS() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.removeUpdates(listenerGPS);
-    }
 
     private void miUbicacion() { //detecta la ubicación actual del dispositivo.
         boolean flag =  false;
@@ -120,11 +117,11 @@ public class GPSTracker extends Service {
             locacion = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             flag = true;
         }
-<<<<<<< HEAD
+
         actualizarUbicacion(locacion);
         locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
-=======
+
         locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
->>>>>>> ServerDevelopment
+
     }
 }
