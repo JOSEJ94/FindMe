@@ -11,29 +11,18 @@ package server;
  */
 public class Usuario {
     //Atributos:
-    private String name;
     private String userName;
     private String password;
  
     //Constructores:
-    public Usuario(String name, String userName, String password) {
-        this.name = name;
+    public Usuario(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
    
     public Usuario(){
-        this.name = "";
         this.userName = "";
         this.password = "";
-    }
-    //Seters y geters:
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUserName() {

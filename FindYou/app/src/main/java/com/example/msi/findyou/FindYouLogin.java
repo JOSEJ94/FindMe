@@ -1,13 +1,14 @@
-package com.moviles.rojas.findme;
+package com.example.msi.findyou;
 
-import android.app.ProgressDialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -15,26 +16,34 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+public class FindYouLogin extends AppCompatActivity {
 
-public class FindMeLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_find_me_login);
+        setContentView(R.layout.activity_find_you_login);
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 EditText username = (EditText) findViewById(R.id.txtUsername);
                 EditText password = (EditText) findViewById(R.id.txtPassword);
-                if (validacion()) {
+                //if (validacion()) {
                     ExecutorService executor = Executors.newFixedThreadPool(10);
-                    Callable<String> callable = new Conexion(0,0,new Usuario(username.getText().toString(),username.getText().toString(),password.getText().toString()),Constants.NET_ACC_AUTENTICAR);
+                    //Callable<String> callable = new Conexion(0, 0, new Usuario(username.getText().toString(), username.getText().toString(), password.getText().toString()), "autenticar");
+                    Callable<String> callable = new Conexion(0, 0, new Usuario("Alejandro", "Alejandro", "123"), Constants.NET_ACC_GETCOORDS);
                     Future<String> future = executor.submit(callable);
                     try {
-                        if(future.get()=="Ok") {
-                            Intent nueva = new Intent(getApplicationContext(), FindMe01.class);
+                        Mensaje(future.get());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    /*try {
+                        if (future.get() == "Ok") {
+                            Intent nueva = new Intent(getApplicationContext(), FindYouMap.class);
                             nueva.putExtra("username", username.getText().toString());
                             nueva.putExtra("name", username.getText().toString());
                             nueva.putExtra("password", password.getText().toString());
@@ -44,8 +53,8 @@ public class FindMeLogin extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
-                    }
-                }
+                    }*/
+                //}
             }
         });
     }
@@ -64,5 +73,8 @@ public class FindMeLogin extends AppCompatActivity {
         return true;
     }
 
+    public void Mensaje(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 
 }

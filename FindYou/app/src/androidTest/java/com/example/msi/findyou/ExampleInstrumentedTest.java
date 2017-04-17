@@ -1,4 +1,4 @@
-package com.moviles.rojas.findyou;
+package com.example.msi.findyou;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.moviles.rojas.findyou", appContext.getPackageName());
+        assertEquals("com.example.msi.findyou", appContext.getPackageName());
     }
 }

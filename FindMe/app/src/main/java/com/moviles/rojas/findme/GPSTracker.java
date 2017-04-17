@@ -1,6 +1,5 @@
 package com.moviles.rojas.findme;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,20 +9,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.Marker;
-
-import static android.R.attr.host;
-import static android.R.attr.name;
-import static android.R.attr.y;
-import static android.content.ContentValues.TAG;
-import static android.webkit.WebViewDatabase.getInstance;
 
 public class GPSTracker extends Service {
     double latitud = -33.8688197;              //Coordenada de latitud
@@ -126,8 +114,5 @@ public class GPSTracker extends Service {
 
         actualizarUbicacion(locacion);
         locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, 10000, 0, listenerGPS);
-
-        locationManager.requestLocationUpdates(!flag ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER,10000,0, listenerGPS);
-
     }
 }

@@ -67,6 +67,9 @@ public class ClientConnection implements Runnable {
             case "autenticar":
                 login();
             break;
+            case "getcoords":
+                cargaCoordenada();
+            break;
             default:
                 System.out.println("Opcion indefinida.");
             break;
@@ -80,9 +83,9 @@ public class ClientConnection implements Runnable {
         Coordenada cord = new Coordenada();
         try{
         //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-        cord.getUsuario().setName( entrada.readUTF());
+        cord.getUsuario().setUserName(entrada.readUTF());
         System.out.println("El usuario es: ");
-        System.out.println(cord.getUsuario().getName());
+        System.out.println(cord.getUsuario().getUserName());
         cord.getUsuario().setPassword(entrada.readUTF());
         System.out.println("La contraseña es: ");
         System.out.println(cord.getUsuario().getPassword());
@@ -97,6 +100,28 @@ public class ClientConnection implements Runnable {
         }
         Server.lista.add(cord);
         return cord;
+    }//FinDelMetodo...
+    
+        public void cargaCoordenada(){
+        try{
+        //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+        Coordenada respuesta = null;
+        if(Server.lista.size()>0)
+             respuesta = Server.lista.get(Server.lista.size()-1);
+        String usuario = entrada.readUTF();
+        String pass = entrada.readUTF();
+        System.out.println("Usuario "+usuario+" con contraseña "+pass+" pide coordenadas");
+        if(respuesta==null)
+            salida.writeInt(100);
+        else
+        {
+        salida.writeInt(200);
+        salida.writeDouble(respuesta.getLatitud());
+        salida.writeDouble(respuesta.getLongitud());
+        }
+        }catch(Exception e){
+            System.out.println("Error "+ e.getMessage());
+        }
     }//FinDelMetodo...
     
     public void login(){

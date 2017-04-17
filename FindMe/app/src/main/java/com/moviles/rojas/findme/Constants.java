@@ -19,5 +19,6 @@ public class Constants {
     //protocolos de comunicación
     public static final String NET_ACC_AUTENTICAR = "autenticar";
     public static final String NET_ACC_COORDENADA = "coordenada";
+    public static final String NET_ACC_GETCOORDS = "getcoords";
 
 }

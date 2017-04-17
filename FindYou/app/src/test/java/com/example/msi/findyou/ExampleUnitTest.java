@@ -1,4 +1,4 @@
-package com.moviles.rojas.findyou;
+package com.example.msi.findyou;
 
 import org.junit.Test;
 

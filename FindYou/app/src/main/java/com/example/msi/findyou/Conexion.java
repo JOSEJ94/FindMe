@@ -1,4 +1,7 @@
-package com.moviles.rojas.findme;
+package com.example.msi.findyou;
+
+import android.app.Application;
+import android.content.Intent;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -6,10 +9,6 @@ import java.net.Socket;
 import java.util.concurrent.Callable;
 
 import static android.R.attr.password;
-
-/**
- * Created by Hector on 10/04/2017.
- */
 
 public class Conexion implements Callable<String> {
     //Atributos
@@ -25,40 +24,33 @@ public class Conexion implements Callable<String> {
     private String accion;
 
     //Constructores:
-    public Conexion(double latitud, double longitud, Usuario user, String accion){
+    public Conexion(double latitud, double longitud, Usuario user, String accion) {
         this.latitud = latitud;
         this.longitud = longitud;
         this.user = user;
         this.accion = accion;
     }
 
-    public void guardaCoordenadas(){
-        try{
+    public void guardaCoordenadas() {
+        try {
             mensaje.writeUTF(this.user.getUsername());
             mensaje.writeUTF(this.user.getPassword());
             mensaje.writeDouble(this.latitud);
             mensaje.writeDouble(this.longitud);
-        }catch(Exception e){
+        } catch (Exception e) {
             //No hacer nada por ahora :v
         }
     }
 
-    public String autenticar(){
-        try{
+    public String autenticar() {
+        try {
             mensaje.writeUTF(this.user.getUsername());
             mensaje.writeUTF(this.user.getPassword());
             int res = entrada.readInt();
-            switch (res)
-            {
-                case 200:
-                    return "Ok";
-                case 100:
-                    return "null";
-                default:
-                    break;
-
+            if (res == 200) {
+                return "Ok";
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             //No hacer nada por ahora :v
         }
         return "Incorrect";
@@ -85,12 +77,11 @@ public class Conexion implements Callable<String> {
         }
         return "Incorrect";
     }
-
     @Override
     public String call() throws Exception {
-        try{
+        try {
             String resultado = "Done";
-            System.out.println("Conectando a "+host+":"+puerto);
+            System.out.println("Conectando a " + host + ":" + puerto);
             //InetAddress serverAddr = InetAddress.getByName(host);
             sc = new Socket(host, puerto); // Conecta a el server
             System.out.println("Conectado");
@@ -100,12 +91,12 @@ public class Conexion implements Callable<String> {
             //Enviar el mensaje:
             mensaje.writeUTF("FindMe");
             mensaje.writeUTF(accion);
-            switch(accion){
+            switch (accion) {
                 case Constants.NET_ACC_COORDENADA:
                     guardaCoordenadas();
                     break;
                 case Constants.NET_ACC_AUTENTICAR:
-                    resultado= autenticar();
+                    resultado = autenticar();
                     break;
                 case Constants.NET_ACC_GETCOORDS:
                     resultado = cargaCoordenadas();
@@ -117,7 +108,7 @@ public class Conexion implements Callable<String> {
             mensaje.close();
             sc.close();
             return resultado;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error de conexion");
         }
         return null;
