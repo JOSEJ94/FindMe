@@ -11,8 +11,8 @@ package server;
  */
 public class Usuario {
     //Atributos:
-    private String userName;
-    private String password;
+    protected String userName;
+    protected String password;
  
     //Constructores:
     public Usuario(String userName, String password) {
@@ -24,6 +24,7 @@ public class Usuario {
         this.userName = "";
         this.password = "";
     }
+    //Seters y geters:
 
     public String getUserName() {
         return userName;

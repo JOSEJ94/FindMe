@@ -89,7 +89,7 @@ public class Conexion implements Callable<String> {
             mensaje = new DataOutputStream(sc.getOutputStream());
             entrada = new DataInputStream(sc.getInputStream());
             //Enviar el mensaje:
-            mensaje.writeUTF("FindMe");
+            mensaje.writeUTF("FindYou");
             mensaje.writeUTF(accion);
             switch (accion) {
                 case Constants.NET_ACC_COORDENADA:

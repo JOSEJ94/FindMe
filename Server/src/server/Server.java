@@ -32,8 +32,11 @@ public class Server {
         Server.lista = new ArrayList<Coordenada>();
         Server.listaUsuarios = new ArrayList<Usuario>();
         Server.listaUsuarios.add(new Usuario("Alejandro","123"));
-        Server.listaUsuarios.add(new Usuario("Hector","123"));
-        Server.listaUsuarios.add(new Usuario("Jose","123"));
+        Padre p = new Padre("Hector","123");
+        Server.listaUsuarios.add(p);
+        Hijo h = new Hijo("Jose","123");
+        Server.listaUsuarios.add(h);
+        p.getLista().add(h);
     }
 
     public void initServer() {

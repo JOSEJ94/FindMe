@@ -30,7 +30,7 @@ public class FindYouLogin extends AppCompatActivity {
                 EditText username = (EditText) findViewById(R.id.txtUsername);
                 EditText password = (EditText) findViewById(R.id.txtPassword);
                 //if (validacion()) {
-                    ExecutorService executor = Executors.newFixedThreadPool(10);
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
                     //Callable<String> callable = new Conexion(0, 0, new Usuario(username.getText().toString(), username.getText().toString(), password.getText().toString()), "autenticar");
                     Callable<String> callable = new Conexion(0, 0, new Usuario("Alejandro", "Alejandro", "123"), Constants.NET_ACC_GETCOORDS);
                     Future<String> future = executor.submit(callable);

@@ -52,8 +52,8 @@ public class Conexion implements Callable<String> {
             {
                 case 200:
                     return "Ok";
-                case 100:
-                    return "null";
+                case 300:
+                    return "Datos Incorrectos, verifique sus datos.";
                 default:
                     break;
 
@@ -61,7 +61,7 @@ public class Conexion implements Callable<String> {
         }catch(Exception e){
             //No hacer nada por ahora :v
         }
-        return "Incorrect";
+        return "Datos incorrectos...";
     }
 
     public String cargaCoordenadas(){
@@ -84,6 +84,26 @@ public class Conexion implements Callable<String> {
             //No hacer nada por ahora :v
         }
         return "Incorrect";
+    }
+
+    public String registrarFindMe(){
+        try{
+            mensaje.writeUTF(this.user.getUsername());
+            mensaje.writeUTF(this.user.getPassword());
+            int res = entrada.readInt();
+            switch (res)
+            {
+                case 200:
+                    return "Registro exitoso";
+                case 0:
+                    return "Ya hay una cuenta registrada con ese nombre";
+                default:
+                    break;
+            }
+        }catch(Exception e){
+            //No hacer nada por ahora :v
+        }
+        return "Hubo un problema al crear la cuenta";
     }
 
     @Override
@@ -109,6 +129,8 @@ public class Conexion implements Callable<String> {
                     break;
                 case Constants.NET_ACC_GETCOORDS:
                     resultado = cargaCoordenadas();
+                case Constants.NET_ACC_REGISTRAR_FINDME:
+                    resultado = registrarFindMe();
                 default:
                     break;
             }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -43,6 +44,8 @@ public class FindMeLogin extends AppCompatActivity {
                             nueva.putExtra("password", password.getText().toString());
                             startActivity(nueva);
                         }
+                        else
+                            Mensaje(future.get());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -60,6 +63,10 @@ public class FindMeLogin extends AppCompatActivity {
             }
         });
     }
+
+    public void Mensaje(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+
 
     private boolean validacion() {
         EditText username = (EditText) findViewById(R.id.txtUsername);

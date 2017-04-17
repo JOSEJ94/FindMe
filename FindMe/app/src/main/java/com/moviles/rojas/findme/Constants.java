@@ -20,5 +20,6 @@ public class Constants {
     public static final String NET_ACC_AUTENTICAR = "autenticar";
     public static final String NET_ACC_COORDENADA = "coordenada";
     public static final String NET_ACC_GETCOORDS = "getcoords";
+    public static final String NET_ACC_REGISTRAR_FINDME = "registrarFindMe";
 
 }
