@@ -32,16 +32,15 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtViewCrearCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="57dp"
         android:text="Crear nueva cuenta"
         tools:layout_editor_absoluteX="132dp"
         tools:layout_editor_absoluteY="403dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignStart="@+id/textView1"
-        android:layout_marginBottom="59dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnLogin"

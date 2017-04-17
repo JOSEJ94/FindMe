@@ -8,12 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static android.R.attr.password;
 
 
 public class FindMeLogin extends AppCompatActivity {
@@ -46,6 +49,14 @@ public class FindMeLogin extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+        TextView txtViewCrearCuenta = (TextView) findViewById(R.id.txtViewCrearCuenta);
+        txtViewCrearCuenta.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent nueva = new Intent(getApplicationContext(), FindMeCrearUsuario.class);
+                startActivity(nueva);
             }
         });
     }
